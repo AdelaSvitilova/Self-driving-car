@@ -7,8 +7,7 @@ public class EvolutionScript : MonoBehaviour
 {
     public GameObject carPrefab;
 
-    [SerializeField]
-    int populationSize, maxGenerations;
+    [SerializeField] int populationSize, maxGenerations;
     private int parentsCount = 2;
     private float mutationProbability = 0.1f;
 
@@ -18,16 +17,10 @@ public class EvolutionScript : MonoBehaviour
 
     private NeuralNetwork[] bestCars;
 
-
     void Start()
     {
         generateFirstPopulation();
         bestCars = new NeuralNetwork[parentsCount];
-        /*NeuralNetwork nn = new NeuralNetwork();
-        float turn, speed;
-        nn.Predict(new float[] { 0.4f, 0.2f, 0f }, out turn, out speed);
-        Debug.Log(turn + "   " + speed);
-        nn.Matation(0.1f);*/
     }
 
     void Update()
@@ -37,7 +30,7 @@ public class EvolutionScript : MonoBehaviour
             carsStillMove = false;
             foreach (CarScript car in cars)
             {
-                if (!car.EndRide)
+                if (!car.RideEnded)
                 {
                     carsStillMove = true;
                     break;
@@ -45,8 +38,8 @@ public class EvolutionScript : MonoBehaviour
             }
             if (!carsStillMove)
             {
-                Debug.Log("Všechna auta dojela");
-                generateNewPopulation();
+                //Debug.Log("Všechna auta dojela");
+                Invoke(nameof(generateNewPopulation), 1.5f);
             }
         }
     }

@@ -126,11 +126,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7bd1d4b4405f9742be19bada7b203aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedMultiplier: 14
-  turnMultiplier: 8
+  speedMultiplier: 7
+  turnMultiplier: 13
   distanceMultiplier: 2
   durationMultiplier: 0.2
   maxRayDistance: 20
+  maxTimeRide: 40
+  rayVisualizer: {fileID: 5955276461760553466, guid: 4c5191230c5c50b469a4fdd3868dc146, type: 3}
 --- !u!1 &412545540189596587
 GameObject:
   m_ObjectHideFlags: 0
