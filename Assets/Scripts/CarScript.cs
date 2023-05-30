@@ -26,27 +26,52 @@ public class CarScript : MonoBehaviour
     public bool RideEnded { get; private set; } = false;
     public NeuralNetwork NeuralNet { get; set; }
 
+    //[SerializeField] int sensorCount;
+    public int sensorCount;
     [SerializeField] GameObject rayVisualizer;
-
     private List<LineRenderer> rayVisualizers;
-
+    private List<Vector3> rayDirections;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         lastPosition = transform.position;
-        NeuralNet = new NeuralNetwork();
+        NeuralNet = new NeuralNetwork(sensorCount);
         firstPosition = transform.position;
         firstRotation = transform.eulerAngles;
+        GenerateRay();
+    }
 
+    private void GenerateRay()
+    {
         rayVisualizers = new List<LineRenderer>();
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < sensorCount; i++)
         {
             GameObject visualizer = Instantiate(rayVisualizer);
             visualizer.transform.parent = gameObject.transform;
             visualizer.transform.position = gameObject.transform.position;
             LineRenderer lr = visualizer.GetComponent<LineRenderer>();
             rayVisualizers.Add(lr);
+        }
+
+        rayDirections = new List<Vector3>();
+        if (sensorCount == 1)
+        {
+            rayDirections.Add(transform.forward);
+        }
+        if (sensorCount == 3)
+        {
+            rayDirections.Add((transform.forward - transform.right).normalized);
+            rayDirections.Add(transform.forward);
+            rayDirections.Add((transform.forward + transform.right).normalized);
+        }
+        if (sensorCount == 5)
+        {
+            rayDirections.Add((transform.forward - transform.right).normalized);
+            rayDirections.Add((2 * transform.forward - transform.right).normalized);
+            rayDirections.Add(transform.forward);
+            rayDirections.Add((2 * transform.forward + transform.right).normalized);
+            rayDirections.Add((transform.forward + transform.right).normalized);
         }
     }
 
@@ -55,11 +80,14 @@ public class CarScript : MonoBehaviour
         if (!RideEnded)
         {
             UpdateFitnessInformation();
-            float forwardSensor = SensorScanning(transform.forward, 0);
-            float leftSensor = SensorScanning(transform.forward - transform.right, 1);
-            float rightSensor = SensorScanning(transform.forward + transform.right, 2);
 
-            NeuralNet.Predict(new float[] { leftSensor, forwardSensor, rightSensor }, out turn, out speed);
+            float[] sensorValues = new float[sensorCount];
+            for (int i = 0; i < sensorCount; i++)
+            {
+                sensorValues[i] = SensorScanning(i);
+            }
+
+            NeuralNet.Predict(sensorValues, out turn, out speed);
             Move();
         }        
     }
@@ -97,7 +125,7 @@ public class CarScript : MonoBehaviour
         lastPosition = currentPosition;
         duration += Time.fixedDeltaTime;
 
-        if(duration > 5 && duration < 10 && Vector3.Distance(currentPosition, firstPosition) < 10)
+        if(duration > 7 && duration < 10 && Vector3.Distance(currentPosition, firstPosition) < 10)
         {
             distance = 0f;
             EndRide();
@@ -121,32 +149,48 @@ public class CarScript : MonoBehaviour
     }
 
 
-    private float SensorScanning(Vector3 direction, int visualizerIndex)
+    private float SensorScanning(int rayIndex)
     {
         //nastaveni, aby pocatecni bod snimani nebyl uprostred auta, ale byl v predni casti auta
         Vector3 from = transform.position + (transform.forward * 2f);
+        Vector3 direction = transform.TransformDirection(rayDirections[rayIndex]);
 
         Ray ray = new Ray(from, direction);
         RaycastHit hit;
         if(Physics.Raycast(ray, out hit, maxRayDistance))
         {
             //Debug.DrawRay(from, direction * hit.distance, Color.red);
-            VisualizeRay(visualizerIndex, Color.red, from, hit.point);
+            if (hit.distance > (3f / 4f * maxRayDistance))
+            {
+                VisualizeRay(rayIndex, Color.yellow, from, hit.point);
+            }
+            else
+            {
+                VisualizeRay(rayIndex, Color.red, from, hit.point);
+            }
         }
         else
         {
             //Debug.DrawRay(from, direction * maxRayDistance, Color.green);
-            VisualizeRay(visualizerIndex, Color.green, from, from + direction * maxRayDistance);
+            if(Physics.Raycast(ray, maxRayDistance + 3f))
+            {
+                VisualizeRay(rayIndex, Color.yellow, from, from + direction * maxRayDistance);
+            }
+            else
+            {
+                VisualizeRay(rayIndex, Color.green, from, from + direction * maxRayDistance);
+            }
+            
         }
         return hit.distance / maxRayDistance;
     }
 
     private void VisualizeRay(int visualizerIndex, Color c, Vector3 from, Vector3 to)
-    {
-        rayVisualizers[visualizerIndex].endColor = c;
-        rayVisualizers[visualizerIndex].startColor = c;
+    {        
         rayVisualizers[visualizerIndex].SetPosition(0, from);
         rayVisualizers[visualizerIndex].SetPosition(1, to);
+        rayVisualizers[visualizerIndex].endColor = c;
+        rayVisualizers[visualizerIndex].startColor = c;
     }
 
     public void ResetCar()
@@ -165,5 +209,4 @@ public class CarScript : MonoBehaviour
         distance = 0f;
         RideEnded = false;
     }
-
 }

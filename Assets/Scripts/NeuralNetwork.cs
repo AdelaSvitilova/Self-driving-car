@@ -9,8 +9,6 @@ using MathNet.Numerics.Distributions;
 
 public class NeuralNetwork
 {
-    //private Matrix<double> w1, w2;
-
     private List<Matrix<double>> weights;
 
     public NeuralNetwork(int sensorsCount = 3, int hiddenLayersCount = 1, int hiddenLayersSize = 6)
@@ -36,13 +34,6 @@ public class NeuralNetwork
             weight = Matrix<double>.Build.Random(neuronCounts[i] + 1, neuronCounts[i+1], new ContinuousUniform(-1.0f, 1.0f));
             weights.Add(weight);
         }
-        //w1 = Matrix<double>.Build.Random(3 + 1, 8, new ContinuousUniform(-1.0f, 1.0f));
-        //w2 = Matrix<double>.Build.Random(8 + 1, 2, new ContinuousUniform(-1.0f, 1.0f));
-
-        foreach (var w in weights)
-        {
-            //Debug.Log(w);
-        }
     }
 
     public void Predict(float[] input, out float turn, out float speed)
@@ -50,21 +41,6 @@ public class NeuralNetwork
         Matrix<float> inputs = Matrix<float>.Build.Dense(1, input.Length, input);
         Matrix<double> neurons = inputs.ToDouble();
         Vector<double> one = Vector<double>.Build.Dense(1, 1);
-
-        // Tenhle kod by se nìjak mohl opakovat
-        /*neurons = neurons.InsertColumn(neurons.ColumnCount, one);
-        neurons = neurons.Multiply(w1);
-        for (int i = 0; i < neurons.ColumnCount; i++)
-        {
-            neurons[0, i] = SpecialFunctions.Logistic(neurons[0, i]);
-        }
-        // opakovat!!!!
-        neurons = neurons.InsertColumn(neurons.ColumnCount, one);
-        neurons = neurons.Multiply(w2);
-        for (int i = 0; i < neurons.ColumnCount; i++)
-        {
-            neurons[0, i] = SpecialFunctions.Logistic(neurons[0, i]);
-        }*/
 
         foreach (Matrix<double> weight in weights)
         {
@@ -76,8 +52,6 @@ public class NeuralNetwork
             }
         }
 
-        //return array
-
         float[] output = neurons.ToSingle().ToRowMajorArray();
         speed = output[0];
         turn = output[1] - 0.5f;
@@ -85,31 +59,6 @@ public class NeuralNetwork
 
     public void Matation(float mutationProbability)
     {
-        // sjednotit, aby se kod neopakoval
-        /*for (int i = 0; i < w1.RowCount; i++)
-        {
-            for (int j = 0; j < w1.ColumnCount; j++)
-            {
-                //Debug.Log(Random.value);
-                if(Random.value < mutationProbability)
-                {
-                    w1[i, j] = Random.Range(-1f, 1f);
-                }
-            }
-        }
-
-        for (int i = 0; i < w2.RowCount; i++)
-        {
-            for (int j = 0; j < w2.ColumnCount; j++)
-            {
-                //Debug.Log(Random.value);
-                if (Random.value < mutationProbability)
-                {
-                    w2[i, j] = Random.Range(-1f, 1f);
-                }
-            }
-        }*/
-
         foreach (Matrix<double> weigth in weights)
         {
             for (int i = 0; i < weigth.RowCount; i++)
@@ -126,14 +75,6 @@ public class NeuralNetwork
         }
     }
 
-    /*public NeuralNetwork Clone()
-    {
-        Matrix<double> clonedW1 = w1.Clone();
-        Matrix<double> clonedW2 = w2.Clone();
-        NeuralNetwork clone = new NeuralNetwork(clonedW1, clonedW2);
-        return clone;
-    }*/
-
     public NeuralNetwork Clone()
     {
         List<Matrix<double>> clonedWeights = new List<Matrix<double>>();
@@ -144,4 +85,6 @@ public class NeuralNetwork
         NeuralNetwork clone = new NeuralNetwork(clonedWeights);
         return clone;
     }
+
+    //crossover
 }
