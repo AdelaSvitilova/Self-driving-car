@@ -94,13 +94,15 @@ public class CarScript : MonoBehaviour
 
     private void Move()
     {
-        //rb.AddRelativeForce(Vector3.forward * speed * speedMultiplier * Time.fixedDeltaTime * 100000f);
-        //Vector3 currentPosition = transform.position;
+        Vector3 currentPosition = transform.position;
         //transform.position = currentPosition + transform.forward * speed * speedMultiplier * Time.fixedDeltaTime;
-
-        rb.velocity = transform.forward * speed * speedMultiplier * Time.fixedDeltaTime * 100f;
+        transform.position = Vector3.Lerp(currentPosition, currentPosition + transform.forward * speed * speedMultiplier, Time.fixedDeltaTime);
+        //rb.velocity = transform.forward * speed * speedMultiplier * Time.fixedDeltaTime * 100f;
+        //transform.position = transform.TransformDirection(Vector3.Lerp(Vector3.zero, transform.forward * speed * speedMultiplier, Time.fixedDeltaTime));
 
         transform.eulerAngles += new Vector3(0f, turn * turnMultiplier, 0f);
+        //Quaternion desiredRotation = Quaternion.Euler(0f, turn * turnMultiplier, 0f);
+        //transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -86,5 +86,27 @@ public class NeuralNetwork
         return clone;
     }
 
-    //crossover
+    public NeuralNetwork CrossoverWith(NeuralNetwork nn)
+    {
+        List<Matrix<double>> clonedWeights = new List<Matrix<double>>();
+
+        for (int m = 0; m < weights.Count; m++)
+        {
+            clonedWeights.Add(weights[m].Clone());
+
+            for (int i = 0; i < clonedWeights[m].RowCount; i++)
+            {
+                for (int j = 0; j < clonedWeights[m].ColumnCount; j++)
+                {
+                    if (Random.value < 0.5)
+                    {
+                        clonedWeights[m][i, j] = nn.weights[m][i, j];
+                    }
+                }
+            }
+        }
+
+        NeuralNetwork clone = new NeuralNetwork(clonedWeights);
+        return clone;
+    }
 }

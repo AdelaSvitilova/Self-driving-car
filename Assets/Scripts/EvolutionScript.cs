@@ -19,8 +19,8 @@ public class EvolutionScript : MonoBehaviour
 
     void Start()
     {
-        carPrefab.GetComponent<CarScript>().sensorCount = 5;
-        generateFirstPopulation();
+        carPrefab.GetComponent<CarScript>().sensorCount = 3;
+        GenerateFirstPopulation();
         bestCars = new NeuralNetwork[parentsCount];        
     }
 
@@ -40,21 +40,21 @@ public class EvolutionScript : MonoBehaviour
             if (!carsStillMove)
             {
                 //Debug.Log("Všechna auta dojela");
-                Invoke(nameof(generateNewPopulation), 1.5f);
+                Invoke(nameof(GenerateNewPopulation), 1.5f);
             }
         }
     }
 
-    private void selection()
+    private void Selection()
     {
         cars = cars.OrderByDescending(c => c.Fitness).ToArray();
         for (int i = 0; i < parentsCount; i++)
         {
-            bestCars[i] = cars[i].NeuralNet;
+            bestCars[i] = cars[i].NeuralNet.Clone();
         }
     }
 
-    private void crossover()
+    private void CrossoverMutation()
     {
         foreach (CarScript car in cars)
         {
@@ -64,7 +64,22 @@ public class EvolutionScript : MonoBehaviour
         }
     }
 
-    private void generateFirstPopulation()
+    private void Crossover()
+    {
+        for (int i = parentsCount; i < populationSize; i++)
+        {
+            int parent1 = Random.Range(0, parentsCount);
+            int parent2 = Random.Range(0, parentsCount);
+            while (parent1 == parent2)
+            {
+                parent2 = Random.Range(0, parentsCount);
+            }
+            cars[i].NeuralNet = bestCars[parent1].CrossoverWith(bestCars[parent2]);
+            cars[i].NeuralNet.Matation(mutationProbability);
+        }
+    }
+
+    private void GenerateFirstPopulation()
     {
         cars = new CarScript[populationSize];
         for (int i = 0; i < populationSize; i++)
@@ -77,12 +92,13 @@ public class EvolutionScript : MonoBehaviour
         carsStillMove = true;
     }
 
-    private void generateNewPopulation()
+    private void GenerateNewPopulation()
     {
         if(generation < maxGenerations)
         {
-            selection();
-            crossover();
+            Selection();
+            //CrossoverMutation();
+            Crossover();
             foreach (CarScript car in cars)
             {
                 car.ResetCar();
