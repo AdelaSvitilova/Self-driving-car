@@ -19,7 +19,7 @@ public class EvolutionScript : MonoBehaviour
 
     void Start()
     {
-        carPrefab.GetComponent<CarScript>().sensorCount = 3;
+        carPrefab.GetComponent<CarScript>().sensorCount = Setting.sensorCount;
         GenerateFirstPopulation();
         bestCars = new NeuralNetwork[parentsCount];        
     }
