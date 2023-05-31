@@ -10,7 +10,7 @@ public class CarScript : MonoBehaviour
 
     private Rigidbody rb;
 
-    private float distance = 0f;
+    public float distance = 0f;
     private float duration = 0f;
 
     private Vector3 firstPosition;

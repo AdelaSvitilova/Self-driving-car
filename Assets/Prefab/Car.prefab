@@ -89,7 +89,7 @@ Transform:
   m_GameObject: {fileID: 119667619671995026}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 44.112843, y: 2.09, z: -23.493689}
-  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3800311311686485497}
@@ -128,6 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedMultiplier: 13.8
   turnMultiplier: 6.4
+  distance: 0
   distanceMultiplier: 2
   durationMultiplier: 0.2
   maxRayDistance: 13.7
