@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 public class EvolutionScript : MonoBehaviour
 {
@@ -9,13 +10,15 @@ public class EvolutionScript : MonoBehaviour
 
     [SerializeField] int populationSize, maxGenerations;
     private int parentsCount = 2;
-    private float mutationProbability = 0.1f;
+    //private float mutationProbability = 0.1f;
 
     public List<CarScript> cars { get; private set; }
     private bool carsStillMove;
     private int generation;
 
     private NeuralNetwork[] bestCars;
+
+    [SerializeField] TMP_Text generationText;
 
     void Start()
     {
@@ -60,13 +63,13 @@ public class EvolutionScript : MonoBehaviour
         {
             int index = Random.Range(0, parentsCount);
             car.NeuralNet = bestCars[index].Clone();
-            car.NeuralNet.Matation(mutationProbability);
+            car.NeuralNet.Mutation(Setting.mutationProbability);
         }
     }
 
     private void Crossover()
     {
-        for (int i = parentsCount; i < populationSize; i++)
+        for (int i = 0; i < cars.Count; i++)
         {
             int parent1 = Random.Range(0, parentsCount);
             int parent2 = Random.Range(0, parentsCount);
@@ -75,14 +78,14 @@ public class EvolutionScript : MonoBehaviour
                 parent2 = Random.Range(0, parentsCount);
             }
             cars[i].NeuralNet = bestCars[parent1].CrossoverWith(bestCars[parent2]);
-            cars[i].NeuralNet.Matation(mutationProbability);
+            cars[i].NeuralNet.Mutation(Setting.mutationProbability);
         }
     }
 
     private void GenerateFirstPopulation()
     {
         cars = new List<CarScript>();
-        for (int i = 0; i < populationSize; i++)
+        for (int i = 0; i < Setting.populationSize; i++)
         {
             GameObject car = Instantiate(carPrefab, transform.position, transform.rotation);
             CarScript carScript = car.GetComponent<CarScript>();
@@ -105,6 +108,8 @@ public class EvolutionScript : MonoBehaviour
             }
             generation++;
             carsStillMove = true;
+
+            generationText.text = "Generace: " + generation.ToString();
         }        
     }
 }

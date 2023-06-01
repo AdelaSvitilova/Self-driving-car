@@ -7,7 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class MenuScript : MonoBehaviour
 {
-    [SerializeField] TMP_Dropdown sensorsCount;
+    [SerializeField] TMP_Dropdown dropdown;
+    [SerializeField] Slider slider;
+    [SerializeField] TMP_Text writeText;
     public void SetTrack(int track)
     {
         Setting.track = track;
@@ -24,8 +26,8 @@ public class MenuScript : MonoBehaviour
 
     public void ChangeSensorsCount()
     {
-        Setting.sensorCount = int.Parse(sensorsCount.options[sensorsCount.value].text);
-        Debug.Log(sensorsCount.options[sensorsCount.value].text);
+        Setting.sensorCount = int.Parse(dropdown.options[dropdown.value].text);
+        Debug.Log(dropdown.options[dropdown.value].text);
     }
 
 
@@ -33,4 +35,17 @@ public class MenuScript : MonoBehaviour
     {
         SceneManager.LoadScene("Track" + Setting.track);
     }    
+
+    public void ChangePopulationSize()
+    {
+        Setting.populationSize = ((int)slider.value);
+        writeText.text = slider.value.ToString();
+    }
+
+    public void ChangeMutationProbability()
+    {
+        float value = Mathf.Round(slider.value * 100f) / 100f;
+        Setting.mutationProbability = value;
+        writeText.text = value.ToString();
+    }
 }

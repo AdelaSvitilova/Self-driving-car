@@ -8,5 +8,7 @@ public class ResetMenuScript : MonoBehaviour
     {
         Setting.sensorCount = 3;
         Setting.track = null;
+        Setting.populationSize = 20;
+        Setting.mutationProbability = 0.1f;
     }
 }

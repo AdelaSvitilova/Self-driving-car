@@ -57,8 +57,9 @@ public class NeuralNetwork
         turn = output[1] - 0.5f;
     }
 
-    public void Matation(float mutationProbability)
+    public void Mutation(float mutationProbability)
     {
+        Debug.Log(mutationProbability);
         foreach (Matrix<double> weigth in weights)
         {
             for (int i = 0; i < weigth.RowCount; i++)
