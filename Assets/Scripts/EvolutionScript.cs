@@ -11,7 +11,7 @@ public class EvolutionScript : MonoBehaviour
     private int parentsCount = 2;
     private float mutationProbability = 0.1f;
 
-    private CarScript[] cars;
+    public List<CarScript> cars { get; private set; }
     private bool carsStillMove;
     private int generation;
 
@@ -47,7 +47,7 @@ public class EvolutionScript : MonoBehaviour
 
     private void Selection()
     {
-        cars = cars.OrderByDescending(c => c.Fitness).ToArray();
+        cars = cars.OrderByDescending(c => c.Fitness).ToList();
         for (int i = 0; i < parentsCount; i++)
         {
             bestCars[i] = cars[i].NeuralNet.Clone();
@@ -81,12 +81,12 @@ public class EvolutionScript : MonoBehaviour
 
     private void GenerateFirstPopulation()
     {
-        cars = new CarScript[populationSize];
+        cars = new List<CarScript>();
         for (int i = 0; i < populationSize; i++)
         {
             GameObject car = Instantiate(carPrefab, transform.position, transform.rotation);
             CarScript carScript = car.GetComponent<CarScript>();
-            cars[i] = carScript;            
+            cars.Add(carScript);
         }
         generation = 0;
         carsStillMove = true;

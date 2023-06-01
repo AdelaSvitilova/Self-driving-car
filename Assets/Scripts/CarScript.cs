@@ -10,7 +10,7 @@ public class CarScript : MonoBehaviour
 
     private Rigidbody rb;
 
-    public float distance = 0f;
+    public float Distance { get; private set; } = 0f;
     private float duration = 0f;
 
     private Vector3 firstPosition;
@@ -115,21 +115,21 @@ public class CarScript : MonoBehaviour
 
     private void CalculateFitness()
     {
-        float avgSpeed = distance / duration;
-        Fitness = distance * distanceMultiplier + avgSpeed * durationMultiplier;
+        float avgSpeed = Distance / duration;
+        Fitness = Distance * distanceMultiplier + avgSpeed * durationMultiplier;
     }
 
     private void UpdateFitnessInformation()
     {
         Vector3 currentPosition = transform.position;
         float distanceOfPositions = Vector3.Distance(currentPosition, lastPosition);
-        distance += distanceOfPositions;
+        Distance += distanceOfPositions;
         lastPosition = currentPosition;
         duration += Time.fixedDeltaTime;
 
         if(duration > 7 && duration < 10 && Vector3.Distance(currentPosition, firstPosition) < 10)
         {
-            distance = 0f;
+            Distance = 0f;
             EndRide();
         }
 
@@ -208,7 +208,7 @@ public class CarScript : MonoBehaviour
 
         Fitness = 0f;
         duration = 0f;
-        distance = 0f;
+        Distance = 0f;
         RideEnded = false;
     }
 }
