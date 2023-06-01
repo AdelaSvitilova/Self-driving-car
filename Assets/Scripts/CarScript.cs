@@ -36,9 +36,10 @@ public class CarScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         lastPosition = transform.position;
-        NeuralNet = new NeuralNetwork(sensorCount);
+        NeuralNet = new NeuralNetwork(sensorCount, Setting.hiddenLayersCount, Setting.hiddenLayerSize);
         firstPosition = transform.position;
         firstRotation = transform.eulerAngles;
+        maxRayDistance = Setting.sensorLength;
         GenerateRay();
     }
 

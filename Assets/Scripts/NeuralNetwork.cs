@@ -33,6 +33,7 @@ public class NeuralNetwork
         {
             weight = Matrix<double>.Build.Random(neuronCounts[i] + 1, neuronCounts[i+1], new ContinuousUniform(-1.0f, 1.0f));
             weights.Add(weight);
+            Debug.Log(weight);
         }
     }
 
@@ -59,7 +60,6 @@ public class NeuralNetwork
 
     public void Mutation(float mutationProbability)
     {
-        Debug.Log(mutationProbability);
         foreach (Matrix<double> weigth in weights)
         {
             for (int i = 0; i < weigth.RowCount; i++)

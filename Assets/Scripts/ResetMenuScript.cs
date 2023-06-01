@@ -10,5 +10,8 @@ public class ResetMenuScript : MonoBehaviour
         Setting.track = null;
         Setting.populationSize = 20;
         Setting.mutationProbability = 0.1f;
+        Setting.hiddenLayerSize = 6;
+        Setting.hiddenLayersCount = 1;
+        Setting.sensorLength = 15f;
     }
 }

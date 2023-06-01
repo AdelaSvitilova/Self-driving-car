@@ -39,7 +39,7 @@ public class MenuScript : MonoBehaviour
     public void ChangePopulationSize()
     {
         Setting.populationSize = ((int)slider.value);
-        writeText.text = slider.value.ToString();
+        writeText.text = ((int)slider.value).ToString();
     }
 
     public void ChangeMutationProbability()
@@ -47,5 +47,22 @@ public class MenuScript : MonoBehaviour
         float value = Mathf.Round(slider.value * 100f) / 100f;
         Setting.mutationProbability = value;
         writeText.text = value.ToString();
+    }
+
+    public void ChangeSensorsLength()
+    {
+        float value = Mathf.Round(slider.value * 100f) / 100f;
+        Setting.sensorLength = value;
+        writeText.text = value.ToString();
+    }
+
+    public void ChangeHiddenLayerSize()
+    {
+        Setting.hiddenLayerSize = int.Parse(dropdown.options[dropdown.value].text);
+    }
+
+    public void ChangeHiddenLayerCount()
+    {
+        Setting.hiddenLayersCount = int.Parse(dropdown.options[dropdown.value].text);
     }
 }
