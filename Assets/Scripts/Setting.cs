@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class Setting : MonoBehaviour
 {
-    public static int track;
+    public static int? track;
     public static int sensorCount = 3;
 }

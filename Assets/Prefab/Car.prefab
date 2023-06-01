@@ -126,9 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7bd1d4b4405f9742be19bada7b203aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedMultiplier: 14.12
-  turnMultiplier: 5.98
-  distance: 0
+  speedMultiplier: 14.4
+  turnMultiplier: 5.44
   distanceMultiplier: 2
   durationMultiplier: 0.2
   maxRayDistance: 13.7

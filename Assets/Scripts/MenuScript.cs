@@ -13,6 +13,15 @@ public class MenuScript : MonoBehaviour
         Setting.track = track;
     }
 
+    public void setHighlight(Button btn)
+    {
+        //btn.colors.normalColor = btn.colors.highlightedColor;
+
+        ColorBlock colors = btn.colors;
+        colors.normalColor = colors.highlightedColor;
+        btn.colors = colors;
+    }
+
     public void ChangeSensorsCount()
     {
         Setting.sensorCount = int.Parse(sensorsCount.options[sensorsCount.value].text);

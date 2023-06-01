@@ -154,7 +154,7 @@ public class CarScript : MonoBehaviour
     private float SensorScanning(int rayIndex)
     {
         //nastaveni, aby pocatecni bod snimani nebyl uprostred auta, ale byl v predni casti auta
-        Vector3 from = transform.position + (transform.forward * 2f);
+        Vector3 from = transform.position + (transform.forward * 2f) + (transform.up);
         Vector3 direction = transform.TransformDirection(rayDirections[rayIndex]);
 
         Ray ray = new Ray(from, direction);
