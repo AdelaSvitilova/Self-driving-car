@@ -33,7 +33,7 @@ public class NeuralNetwork
         {
             weight = Matrix<double>.Build.Random(neuronCounts[i] + 1, neuronCounts[i+1], new ContinuousUniform(-1.0f, 1.0f));
             weights.Add(weight);
-            Debug.Log(weight);
+            //Debug.Log(weight);
         }
     }
 

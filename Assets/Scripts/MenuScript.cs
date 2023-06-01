@@ -15,7 +15,7 @@ public class MenuScript : MonoBehaviour
         Setting.track = track;
     }
 
-    public void setHighlight(Button btn)
+    public void SetHighlight(Button btn)
     {
         //btn.colors.normalColor = btn.colors.highlightedColor;
 

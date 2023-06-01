@@ -31,6 +31,7 @@ public class CarScript : MonoBehaviour
     [SerializeField] GameObject rayVisualizer;
     private List<LineRenderer> rayVisualizers;
     private List<Vector3> rayDirections;
+    [SerializeField] LayerMask layerMask;
 
     private void Start()
     {
@@ -160,7 +161,7 @@ public class CarScript : MonoBehaviour
 
         Ray ray = new Ray(from, direction);
         RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, maxRayDistance))
+        if(Physics.Raycast(ray, out hit, maxRayDistance, layerMask))
         {
             //Debug.DrawRay(from, direction * hit.distance, Color.red);
             if (hit.distance > (3f / 4f * maxRayDistance))
@@ -175,7 +176,7 @@ public class CarScript : MonoBehaviour
         else
         {
             //Debug.DrawRay(from, direction * maxRayDistance, Color.green);
-            if(Physics.Raycast(ray, maxRayDistance + 3f))
+            if(Physics.Raycast(ray, maxRayDistance + 3f, layerMask))
             {
                 VisualizeRay(rayIndex, Color.yellow, from, from + direction * maxRayDistance);
             }
@@ -200,6 +201,8 @@ public class CarScript : MonoBehaviour
     {
         transform.position = firstPosition;
         transform.eulerAngles = firstRotation;
+        lastPosition = firstPosition;
+
         rb.isKinematic = false;
 
         foreach (LineRenderer lr in rayVisualizers)
