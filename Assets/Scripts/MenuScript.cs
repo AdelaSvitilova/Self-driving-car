@@ -65,4 +65,9 @@ public class MenuScript : MonoBehaviour
     {
         Setting.hiddenLayersCount = int.Parse(dropdown.options[dropdown.value].text);
     }
+
+    public void ChangeParentsCount()
+    {
+        Setting.parentsCount = int.Parse(dropdown.options[dropdown.value].text);
+    }
 }

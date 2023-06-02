@@ -22,6 +22,7 @@ public class EvolutionScript : MonoBehaviour
 
     void Start()
     {
+        parentsCount = Setting.parentsCount;
         carPrefab.GetComponent<CarScript>().sensorCount = Setting.sensorCount;
         GenerateFirstPopulation();
         bestCars = new NeuralNetwork[parentsCount];        
@@ -42,7 +43,6 @@ public class EvolutionScript : MonoBehaviour
             }
             if (!carsStillMove)
             {
-                //Debug.Log("Všechna auta dojela");
                 Invoke(nameof(GenerateNewPopulation), 1.5f);
             }
         }
