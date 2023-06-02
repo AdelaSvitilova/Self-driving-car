@@ -17,7 +17,15 @@ public class MenuScript : MonoBehaviour
         {
             Setting.maxTime = 60;
         }
+        else if(track == 2)
+        {
+            Setting.maxTime = 120;
+        }
         else if (track == 3)
+        {
+            Setting.maxTime = 150;
+        }
+        else if(track == 4)
         {
             Setting.maxTime = 150;
         }
