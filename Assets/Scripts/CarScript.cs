@@ -61,19 +61,29 @@ public class CarScript : MonoBehaviour
         {
             rayDirections.Add(transform.forward);
         }
-        if (sensorCount == 3)
+        else if (sensorCount == 3)
         {
             rayDirections.Add((transform.forward - transform.right).normalized);
             rayDirections.Add(transform.forward);
             rayDirections.Add((transform.forward + transform.right).normalized);
         }
-        if (sensorCount == 5)
+        else if (sensorCount == 5)
         {
             rayDirections.Add((transform.forward - transform.right).normalized);
             rayDirections.Add((2 * transform.forward - transform.right).normalized);
             rayDirections.Add(transform.forward);
             rayDirections.Add((2 * transform.forward + transform.right).normalized);
             rayDirections.Add((transform.forward + transform.right).normalized);
+        }
+        else if (sensorCount == 7)
+        {
+            rayDirections.Add((transform.forward - 2 * transform.right).normalized);
+            rayDirections.Add((transform.forward - transform.right).normalized);
+            rayDirections.Add((2 * transform.forward - transform.right).normalized);
+            rayDirections.Add(transform.forward);
+            rayDirections.Add((2 * transform.forward + transform.right).normalized);
+            rayDirections.Add((transform.forward + transform.right).normalized);
+            rayDirections.Add((transform.forward + 2 * transform.right).normalized);
         }
     }
 
