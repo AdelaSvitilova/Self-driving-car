@@ -7,13 +7,13 @@ public class CameraFollowing : MonoBehaviour
 {
     private List<CarScript> cars;
     private CarScript target;
-    private CarScript targetNew;
+    private CarScript newTarget;
 
     void Start()
     {
         cars = transform.parent.GetComponent<EvolutionScript>().cars;
         target = cars[0];
-        target.GetComponentInChildren<CinemachineVirtualCamera>(true).Priority = 10;
+        newTarget = null;
     }
 
     private void Update()
@@ -21,22 +21,29 @@ public class CameraFollowing : MonoBehaviour
         float bestFit = -1f;
         foreach (CarScript car in cars)
         {
-            if (car.Fitness > bestFit)
+            if (car.Fitness > bestFit && car.Fitness > 3)
             {
                 bestFit = car.Fitness;
-                targetNew = car;
+                newTarget = car;
             }
         }
 
-        if (target != targetNew)
+        if (newTarget && target != newTarget)
         {
-            CinemachineVirtualCamera camera2 = targetNew.GetComponentInChildren<CinemachineVirtualCamera>(true);
+            CinemachineVirtualCamera camera2 = newTarget.GetComponentInChildren<CinemachineVirtualCamera>(true);
             camera2.Priority = 10;
             CinemachineVirtualCamera camera = target.GetComponentInChildren<CinemachineVirtualCamera>(true);
             camera.Priority = 1;
-            target = targetNew;
+            target = newTarget;
         }
+
     }
 
+    public void MoveToStart()
+    {
+        CinemachineVirtualCamera camera = target.GetComponentInChildren<CinemachineVirtualCamera>(true);
+        camera.Priority = 1;
+        newTarget = null;
+    }
         
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using System.Linq;
 using TMPro;
 
@@ -19,6 +20,8 @@ public class EvolutionScript : MonoBehaviour
     private NeuralNetwork[] bestCars;
 
     [SerializeField] TMP_Text generationText;
+
+    [SerializeField] UnityEvent carRestarted;
 
     void Start()
     {
@@ -99,6 +102,7 @@ public class EvolutionScript : MonoBehaviour
     {
         if(generation < maxGenerations)
         {
+            carRestarted.Invoke();
             Selection();
             //CrossoverMutation();
             Crossover();

@@ -131,8 +131,6 @@ MonoBehaviour:
   turnMultiplier: 6
   distanceMultiplier: 1
   durationMultiplier: 0
-  maxRayDistance: 13.7
-  maxTimeRide: 120
   Fitness: 0
   sensorCount: 5
   rayVisualizer: {fileID: 5955276461760553466, guid: 4c5191230c5c50b469a4fdd3868dc146, type: 3}
@@ -951,8 +949,8 @@ MonoBehaviour:
   m_VerticalDamping: 0.5
   m_ScreenX: 0.5
   m_ScreenY: 0.5
-  m_DeadZoneWidth: 0.4
-  m_DeadZoneHeight: 0.4
+  m_DeadZoneWidth: 0.2
+  m_DeadZoneHeight: 0.2
   m_SoftZoneWidth: 0.8
   m_SoftZoneHeight: 0.8
   m_BiasX: 0
