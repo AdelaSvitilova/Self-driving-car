@@ -16,6 +16,7 @@ public class SceneTextScript : MonoBehaviour
     {
         staticText.text = "Pravdìpodobnost mutace: " + Setting.mutationProbability.ToString() +
             " Velikost populace: " + Setting.populationSize.ToString() +
+            " Poèet rodièù pro novou generaci: " + Setting.parentsCount.ToString() +
             " Poèet skrytých vrstev neuronové sítì: " + Setting.hiddenLayersCount.ToString() +
             " Velikost skryté vrstvy neuronové sítì: " + Setting.hiddenLayerSize.ToString();
         cars = transform.GetComponent<EvolutionScript>().cars;

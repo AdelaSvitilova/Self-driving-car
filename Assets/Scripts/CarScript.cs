@@ -19,8 +19,7 @@ public class CarScript : MonoBehaviour
     private Vector3 lastPosition;
 
     [SerializeField] float distanceMultiplier, durationMultiplier;
-    [SerializeField] float maxRayDistance;
-    [SerializeField] float maxTimeRide;
+    private float maxRayDistance;
 
     //public float Fitness { get; private set; }
     public float Fitness;
@@ -106,7 +105,7 @@ public class CarScript : MonoBehaviour
 
     private void Move()
     {
-        Vector3 currentPosition = transform.position;
+        //Vector3 currentPosition = transform.position;
         //transform.position = currentPosition + transform.forward * speed * speedMultiplier * Time.fixedDeltaTime;
         //transform.position = Vector3.Lerp(currentPosition, currentPosition + transform.forward * speed * speedMultiplier, Time.fixedDeltaTime);  //19
         rb.velocity = transform.forward * speed * speedMultiplier * Time.fixedDeltaTime * 100f; //9
@@ -146,7 +145,7 @@ public class CarScript : MonoBehaviour
             EndRide();
         }
 
-        if(duration > maxTimeRide)
+        if(duration > Setting.maxTime)
         {
             EndRide();
         }

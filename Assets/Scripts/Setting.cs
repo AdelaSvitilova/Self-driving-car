@@ -12,4 +12,5 @@ public class Setting : MonoBehaviour
     public static int hiddenLayersCount = 1;
     public static float sensorLength = 15f;
     public static int parentsCount = 3;
+    public static float maxTime = 60;
 }

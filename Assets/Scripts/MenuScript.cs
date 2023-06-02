@@ -13,15 +13,14 @@ public class MenuScript : MonoBehaviour
     public void SetTrack(int track)
     {
         Setting.track = track;
-    }
-
-    public void SetHighlight(Button btn)
-    {
-        //btn.colors.normalColor = btn.colors.highlightedColor;
-
-        ColorBlock colors = btn.colors;
-        colors.normalColor = colors.highlightedColor;
-        btn.colors = colors;
+        if(track == 1)
+        {
+            Setting.maxTime = 60;
+        }
+        else if (track == 3)
+        {
+            Setting.maxTime = 150;
+        }
     }
 
     public void ChangeSensorsCount()
