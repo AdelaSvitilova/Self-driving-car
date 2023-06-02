@@ -40,6 +40,6 @@ public class SceneTextScript : MonoBehaviour
         }
 
         changingText.text = "Aktuální nejlepší fitnes: "+ bestFit.ToString("F2") +
-            " Celkové nejlepší fitnes: " + bestFitness.ToString("F2");
+            "\nCelkové nejlepší fitnes: " + bestFitness.ToString("F2");
     }
 }

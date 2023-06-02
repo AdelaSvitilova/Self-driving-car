@@ -1,21 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class CameraFollowing : MonoBehaviour
 {
     private List<CarScript> cars;
     private CarScript target;
-
-    public float smoothSpeed = 0.5f;
-    [SerializeField] Vector3 offset;
-    [SerializeField] float behindDistance;
-    [SerializeField] float upDistance;
-
+    private CarScript targetNew;
 
     void Start()
     {
         cars = transform.parent.GetComponent<EvolutionScript>().cars;
+        target = cars[0];
+        target.GetComponentInChildren<CinemachineVirtualCamera>(true).Priority = 10;
     }
 
     private void Update()
@@ -23,17 +21,22 @@ public class CameraFollowing : MonoBehaviour
         float bestFit = -1f;
         foreach (CarScript car in cars)
         {
-            if (car.Distance > bestFit)
+            if (car.Fitness > bestFit)
             {
-                bestFit = car.Distance;
-                target = car;
+                bestFit = car.Fitness;
+                targetNew = car;
             }
         }
 
-        Vector3 desiredPosition = target.transform.position - target.transform.forward * behindDistance + target.transform.up * upDistance;
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
-
-        Quaternion desiredRotation = target.transform.rotation;
-        transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, smoothSpeed * Time.deltaTime);
+        if (target != targetNew)
+        {
+            CinemachineVirtualCamera camera2 = targetNew.GetComponentInChildren<CinemachineVirtualCamera>(true);
+            camera2.Priority = 10;
+            CinemachineVirtualCamera camera = target.GetComponentInChildren<CinemachineVirtualCamera>(true);
+            camera.Priority = 1;
+            target = targetNew;
+        }
     }
+
+        
 }

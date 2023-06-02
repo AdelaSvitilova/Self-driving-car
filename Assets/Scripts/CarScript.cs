@@ -22,7 +22,8 @@ public class CarScript : MonoBehaviour
     [SerializeField] float maxRayDistance;
     [SerializeField] float maxTimeRide;
 
-    public float Fitness { get; private set; }
+    //public float Fitness { get; private set; }
+    public float Fitness;
     public bool RideEnded { get; private set; } = false;
     public NeuralNetwork NeuralNet { get; set; }
 
@@ -77,20 +78,29 @@ public class CarScript : MonoBehaviour
         }
     }
 
+    private int updateCount = 0;
     private void FixedUpdate()
     {
         if (!RideEnded)
         {
             UpdateFitnessInformation();
-
+            
             float[] sensorValues = new float[sensorCount];
             for (int i = 0; i < sensorCount; i++)
             {
                 sensorValues[i] = SensorScanning(i);
             }
 
-            NeuralNet.Predict(sensorValues, out turn, out speed);
-            Move();
+            if(updateCount == 12)
+            {
+                NeuralNet.Predict(sensorValues, out turn, out speed);                
+                updateCount = 0;
+            }
+            else
+            {
+                updateCount++;
+            }
+            Move();            
         }        
     }
 
@@ -98,11 +108,11 @@ public class CarScript : MonoBehaviour
     {
         Vector3 currentPosition = transform.position;
         //transform.position = currentPosition + transform.forward * speed * speedMultiplier * Time.fixedDeltaTime;
-        transform.position = Vector3.Lerp(currentPosition, currentPosition + transform.forward * speed * speedMultiplier, Time.fixedDeltaTime);
-        //rb.velocity = transform.forward * speed * speedMultiplier * Time.fixedDeltaTime * 100f;
+        //transform.position = Vector3.Lerp(currentPosition, currentPosition + transform.forward * speed * speedMultiplier, Time.fixedDeltaTime);  //19
+        rb.velocity = transform.forward * speed * speedMultiplier * Time.fixedDeltaTime * 100f; //9
         //transform.position = transform.TransformDirection(Vector3.Lerp(Vector3.zero, transform.forward * speed * speedMultiplier, Time.fixedDeltaTime));
 
-        transform.eulerAngles += new Vector3(0f, turn * turnMultiplier, 0f);
+        transform.eulerAngles += new Vector3(0f, turn * turnMultiplier, 0f); //6
         //Quaternion desiredRotation = Quaternion.Euler(0f, turn * turnMultiplier, 0f);
         //transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.deltaTime);
     }
@@ -128,6 +138,7 @@ public class CarScript : MonoBehaviour
         Distance += distanceOfPositions;
         lastPosition = currentPosition;
         duration += Time.fixedDeltaTime;
+        CalculateFitness();
 
         if(duration > 7 && duration < 10 && Vector3.Distance(currentPosition, firstPosition) < 10)
         {

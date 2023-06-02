@@ -27,7 +27,6 @@ public class MenuScript : MonoBehaviour
     public void ChangeSensorsCount()
     {
         Setting.sensorCount = int.Parse(dropdown.options[dropdown.value].text);
-        Debug.Log(dropdown.options[dropdown.value].text);
     }
 
 
