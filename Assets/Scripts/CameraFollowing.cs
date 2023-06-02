@@ -21,7 +21,7 @@ public class CameraFollowing : MonoBehaviour
         float bestFit = -1f;
         foreach (CarScript car in cars)
         {
-            if (car.Fitness > bestFit && car.Fitness > 3)
+            if (car.Fitness > bestFit && car.Fitness > 15)
             {
                 bestFit = car.Fitness;
                 newTarget = car;
