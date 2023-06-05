@@ -29,9 +29,9 @@ public class SceneTextScript : MonoBehaviour
 
         foreach (CarScript car in cars)
         {
-            if (car.Distance > bestFit)
+            if (car.Fitness > bestFit)
             {
-                bestFit = car.Distance;
+                bestFit = car.Fitness;
             }
         }
 

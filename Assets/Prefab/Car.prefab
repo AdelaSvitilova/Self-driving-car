@@ -129,9 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedMultiplier: 9
   turnMultiplier: 6
-  distanceMultiplier: 1
-  durationMultiplier: 0
-  Fitness: 0
+  rb: {fileID: 4924730627069708672}
   sensorCount: 5
   rayVisualizer: {fileID: 5955276461760553466, guid: 4c5191230c5c50b469a4fdd3868dc146, type: 3}
   layerMask:

@@ -7,40 +7,37 @@ public class CarScript : MonoBehaviour
     private float turn, speed;
 
     [SerializeField] float speedMultiplier, turnMultiplier;
+    [SerializeField] Rigidbody rb;
 
-    private Rigidbody rb;
-
-    public float Distance { get; private set; } = 0f;
+    private float distance = 0f;
     private float duration = 0f;
 
     private Vector3 firstPosition;
     private Vector3 firstRotation;
-
     private Vector3 lastPosition;
+    
 
-    [SerializeField] float distanceMultiplier, durationMultiplier;
-    private float maxRayDistance;
-
-    //public float Fitness { get; private set; }
-    public float Fitness;
+    public float Fitness { get; private set; }
+    //public float Fitness;
     public bool RideEnded { get; private set; } = false;
     public NeuralNetwork NeuralNet { get; set; }
 
     //[SerializeField] int sensorCount;
-    public int sensorCount;
+    private int sensorCount;
+    private float maxRayDistance;
     [SerializeField] GameObject rayVisualizer;
     private List<LineRenderer> rayVisualizers;
     private List<Vector3> rayDirections;
     [SerializeField] LayerMask layerMask;
 
     private void Start()
-    {
-        rb = GetComponent<Rigidbody>();
+    {       
         lastPosition = transform.position;
-        NeuralNet = new NeuralNetwork(sensorCount, Setting.hiddenLayersCount, Setting.hiddenLayerSize);
         firstPosition = transform.position;
         firstRotation = transform.eulerAngles;
+        sensorCount = Setting.sensorCount;
         maxRayDistance = Setting.sensorLength;
+        NeuralNet = new NeuralNetwork(sensorCount, Setting.hiddenLayersCount, Setting.hiddenLayerSize);
         GenerateRay();
     }
 
@@ -91,9 +88,7 @@ public class CarScript : MonoBehaviour
     private void FixedUpdate()
     {
         if (!RideEnded)
-        {
-            UpdateFitnessInformation();
-            
+        {           
             float[] sensorValues = new float[sensorCount];
             for (int i = 0; i < sensorCount; i++)
             {
@@ -109,7 +104,8 @@ public class CarScript : MonoBehaviour
             {
                 updateCount++;
             }
-            Move();            
+            Move();    
+            UpdateFitness();        
         }        
     }
 
@@ -130,41 +126,34 @@ public class CarScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Wall"))
         {
-            EndRide();        
+            StopCar();
+            UpdateFitness();
         }
     }
 
-    private void CalculateFitness()
-    {
-        float avgSpeed = Distance / duration;
-        Fitness = Distance * distanceMultiplier + avgSpeed * durationMultiplier;
-    }
-
-    private void UpdateFitnessInformation()
+    private void UpdateFitness()
     {
         Vector3 currentPosition = transform.position;
         float distanceOfPositions = Vector3.Distance(currentPosition, lastPosition);
-        Distance += distanceOfPositions;
+        distance += distanceOfPositions;
         lastPosition = currentPosition;
         duration += Time.fixedDeltaTime;
-        CalculateFitness();
 
         if(duration > 7 && duration < 10 && Vector3.Distance(currentPosition, firstPosition) < 10)
         {
-            Distance = 0f;
-            EndRide();
+            distance = 0f;
+            StopCar();
+        }else if(duration > Setting.maxTime)
+        {
+            StopCar();
         }
 
-        if(duration > Setting.maxTime)
-        {
-            EndRide();
-        }
+        Fitness = distance;
     }
 
-    private void EndRide()
+    private void StopCar()
     {
         RideEnded = true;
-        CalculateFitness();
         rb.isKinematic = true;
         foreach (LineRenderer lr in rayVisualizers)
         {
@@ -232,7 +221,7 @@ public class CarScript : MonoBehaviour
 
         Fitness = 0f;
         duration = 0f;
-        Distance = 0f;
+        distance = 0f;
         RideEnded = false;
     }
 }
