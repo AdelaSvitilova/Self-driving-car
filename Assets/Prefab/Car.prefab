@@ -130,7 +130,6 @@ MonoBehaviour:
   speedMultiplier: 9
   turnMultiplier: 6
   rb: {fileID: 4924730627069708672}
-  sensorCount: 5
   rayVisualizer: {fileID: 5955276461760553466, guid: 4c5191230c5c50b469a4fdd3868dc146, type: 3}
   layerMask:
     serializedVersion: 2
@@ -728,7 +727,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6751174888832602687}
   m_LocalRotation: {x: 0.3986695, y: -0.028614827, z: 0.0124463355, w: 0.91656363}
-  m_LocalPosition: {x: 0.3125, y: 5.3749995, z: -5}
+  m_LocalPosition: {x: 0.045, y: 1.689, z: -5.078}
   m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 0.6666667}
   m_ConstrainProportionsScale: 0
   m_Children:

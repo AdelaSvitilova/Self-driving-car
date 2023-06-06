@@ -11,9 +11,12 @@ public class SceneTextScript : MonoBehaviour
     private List<CarScript> cars;
 
     private float bestFitness;
+    private GameObject bestCar;
 
     void Start()
     {
+        bestCar = null;
+
         staticText.text = "Pravdìpodobnost mutace: " + Setting.mutationProbability.ToString() +
             " Velikost populace: " + Setting.populationSize.ToString() +
             " Poèet rodièù pro novou generaci: " + Setting.parentsCount.ToString() +
@@ -32,6 +35,7 @@ public class SceneTextScript : MonoBehaviour
             if (car.Fitness > bestFit)
             {
                 bestFit = car.Fitness;
+                bestCar = car.gameObject;
             }
         }
 
@@ -42,5 +46,9 @@ public class SceneTextScript : MonoBehaviour
 
         changingText.text = "Aktuální nejlepší fitnes: "+ bestFit.ToString("F2") +
             "\nCelkové nejlepší fitnes: " + bestFitness.ToString("F2");
+    }
+
+    public GameObject BestCar {
+        get { return bestCar; }
     }
 }
