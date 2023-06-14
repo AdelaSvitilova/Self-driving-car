@@ -7056,17 +7056,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 468
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &475797460 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2898180234464011600, guid: a044d079ecdb82f4ba3ee45a1b551183, type: 3}
-  m_PrefabInstance: {fileID: 1674556091}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &478057752
 GameObject:
   m_ObjectHideFlags: 3
@@ -12691,6 +12680,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 337
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &822971215 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7094897181283687479, guid: a044d079ecdb82f4ba3ee45a1b551183, type: 3}
+  m_PrefabInstance: {fileID: 1674556091}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce18f75281862744c84ba474f5cf7313, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &832151652
 GameObject:
   m_ObjectHideFlags: 3
@@ -13239,7 +13239,6 @@ GameObject:
   m_Component:
   - component: {fileID: 872016068}
   - component: {fileID: 872016067}
-  - component: {fileID: 872016069}
   m_Layer: 0
   m_Name: Evolution Manager
   m_TagString: EvoManager
@@ -13259,16 +13258,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 310845153c91eb44f8d8f1a53239ac08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carPrefab: {fileID: 119667619671995026, guid: acd124269aa8add4bb7029f414ff9191, type: 3}
-  populationSize: 20
+  carPrefab: {fileID: 119667619671995026, guid: 79f24d425ee4bab41baed7ec74090bfe, type: 3}
   maxGenerations: 100
-  generationText: {fileID: 475797460}
   carRestarted:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 953408429}
         m_TargetAssemblyTypeName: CameraFollowing, Assembly-CSharp
-        m_MethodName: MoveToStart
+        m_MethodName: ResetGeneration
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 822971215}
+        m_TargetAssemblyTypeName: SceneTextScript, Assembly-CSharp
+        m_MethodName: ChangeGenerationText
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13294,20 +13303,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &872016069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 872016066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce18f75281862744c84ba474f5cf7313, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  staticText: {fileID: 1674556093}
-  changingText: {fileID: 1674556092}
 --- !u!1 &872017596
 GameObject:
   m_ObjectHideFlags: 3
@@ -14269,6 +14264,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6341d8bf0d6d8245a7af24f61460bba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  topCamera: {fileID: 1488016100}
+  startCamera: {fileID: 1992831626}
 --- !u!81 &953408430
 AudioListener:
   m_ObjectHideFlags: 0
@@ -14355,7 +14352,7 @@ MonoBehaviour:
   m_BlendUpdateMethod: 0
   m_DefaultBlend:
     m_Style: 2
-    m_Time: 2
+    m_Time: 1
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []
@@ -25755,6 +25752,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2898180234628551908, guid: a044d079ecdb82f4ba3ee45a1b551183, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 953408429}
+    - target: {fileID: 2898180234628551908, guid: a044d079ecdb82f4ba3ee45a1b551183, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeTopCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 2898180234628551908, guid: a044d079ecdb82f4ba3ee45a1b551183, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CameraFollowing, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 2898180234628551909, guid: a044d079ecdb82f4ba3ee45a1b551183, type: 3}
       propertyPath: virtualCamera
       value: 
@@ -25853,28 +25862,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a044d079ecdb82f4ba3ee45a1b551183, type: 3}
---- !u!114 &1674556092 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2898180233667251728, guid: a044d079ecdb82f4ba3ee45a1b551183, type: 3}
-  m_PrefabInstance: {fileID: 1674556091}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1674556093 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2898180233847667668, guid: a044d079ecdb82f4ba3ee45a1b551183, type: 3}
-  m_PrefabInstance: {fileID: 1674556091}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1678779510
 GameObject:
   m_ObjectHideFlags: 3

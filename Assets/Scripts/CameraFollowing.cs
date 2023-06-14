@@ -5,46 +5,75 @@ using Cinemachine;
 
 public class CameraFollowing : MonoBehaviour
 {
-    private List<CarScript> cars;
-    private CarScript target;
-    private CarScript newTarget;
+    [SerializeField] CinemachineVirtualCamera topCamera;
+    [SerializeField] CinemachineVirtualCamera startCamera;
+    private CinemachineVirtualCamera activeCamera;
+    private bool topCameraEnabled;
+    private EvolutionScript evolutionScript;
 
     void Start()
     {
-        GameObject evolutionManager = GameObject.FindGameObjectWithTag("EvoManager");
-        cars = evolutionManager.GetComponent<EvolutionScript>().cars;
-        target = cars[0];
-        newTarget = null;
+        evolutionScript = GameObject.FindGameObjectWithTag("EvoManager").GetComponent<EvolutionScript>();
+        topCameraEnabled = true;
+        activeCamera = startCamera;
     }
 
     private void Update()
     {
-        float bestFit = -1f;
-        foreach (CarScript car in cars)
+        if (!topCameraEnabled)
         {
-            if (car.Fitness > bestFit && car.Fitness > 15)
-            {
-                bestFit = car.Fitness;
-                newTarget = car;
-            }
+            FoundCameraToActivate();
         }
-
-        if (newTarget && target != newTarget)
-        {
-            CinemachineVirtualCamera camera2 = newTarget.GetComponentInChildren<CinemachineVirtualCamera>(true);
-            camera2.Priority = 10;
-            CinemachineVirtualCamera camera = target.GetComponentInChildren<CinemachineVirtualCamera>(true);
-            camera.Priority = 1;
-            target = newTarget;
-        }
-
     }
-
-    public void MoveToStart()
+    
+    public void ResetGeneration()
     {
-        CinemachineVirtualCamera camera = target.GetComponentInChildren<CinemachineVirtualCamera>(true);
-        camera.Priority = 1;
-        newTarget = null;
+        if (!topCameraEnabled)
+        {
+            ActivateCamera(startCamera);
+        }
     }
-        
+    
+    public void ChangeTopCamera()
+    {
+        if (topCameraEnabled)
+        {            
+            FoundCameraToActivate();
+            topCamera.Priority = 0;
+            topCameraEnabled = false;
+        }
+        else
+        {
+            topCamera.Priority = 20;
+            activeCamera.Priority = 0;
+            topCameraEnabled = true;
+            activeCamera = topCamera;
+        }
+    }
+
+    private void FoundCameraToActivate()
+    {
+        CarScript bestCar = evolutionScript.BestCar;
+        CinemachineVirtualCamera cameraToActivate;
+        if(bestCar.Fitness > 15)
+        {
+            cameraToActivate = bestCar.gameObject.GetComponentInChildren<CinemachineVirtualCamera>();
+        }
+        else
+        {
+            cameraToActivate = startCamera;
+        }
+
+        if(cameraToActivate != activeCamera)
+        {
+            ActivateCamera(cameraToActivate);
+        }
+    }
+
+    private void ActivateCamera(CinemachineVirtualCamera camera)
+    {
+        camera.Priority = 10;
+        activeCamera.Priority = 0;        
+        activeCamera = camera;
+    }
 }

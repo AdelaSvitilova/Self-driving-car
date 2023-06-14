@@ -7,11 +7,9 @@ using TMPro;
 
 public class EvolutionScript : MonoBehaviour
 {
-    public GameObject carPrefab;
-
-    [SerializeField] int populationSize, maxGenerations;
+    [SerializeField] GameObject carPrefab;
+    [SerializeField] int maxGenerations;
     private int parentsCount;
-    //private float mutationProbability = 0.1f;
 
     public List<CarScript> cars { get; private set; }
     private bool carsStillMove;
@@ -71,16 +69,6 @@ public class EvolutionScript : MonoBehaviour
         }
     }
 
-    private void CrossoverMutation()
-    {
-        foreach (CarScript car in cars)
-        {
-            int index = Random.Range(0, parentsCount);
-            car.NeuralNet = bestCars[index].Clone();
-            car.NeuralNet.Mutation(Setting.mutationProbability);
-        }
-    }
-
     private void Crossover()
     {
         for (int i = 0; i < cars.Count; i++)
@@ -113,10 +101,8 @@ public class EvolutionScript : MonoBehaviour
     private void GenerateNewPopulation()
     {
         if(Generation < maxGenerations)
-        {
-            carRestarted.Invoke();
+        {            
             Selection();
-            //CrossoverMutation();
             Crossover();
             foreach (CarScript car in cars)
             {
@@ -125,6 +111,7 @@ public class EvolutionScript : MonoBehaviour
             Generation++;
             carsStillMove = true;
             bestFitness = 0;
+            carRestarted.Invoke();
         }        
     }
 }

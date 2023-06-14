@@ -15,14 +15,13 @@ public class CarScript : MonoBehaviour
     private Vector3 firstPosition;
     private Vector3 firstRotation;
     private Vector3 lastPosition;
-    
+
+    private int updatesToNewPrediction = 0;
 
     public float Fitness { get; private set; }
-    //public float Fitness;
     public bool RideEnded { get; private set; } = false;
     public NeuralNetwork NeuralNet { get; set; }
 
-    //[SerializeField] int sensorCount;
     private int sensorCount;
     private float maxRayDistance;
     [SerializeField] GameObject rayVisualizer;
@@ -84,25 +83,24 @@ public class CarScript : MonoBehaviour
         }
     }
 
-    private int updateCount = 0;
     private void FixedUpdate()
     {
         if (!RideEnded)
         {           
             float[] sensorValues = new float[sensorCount];
-            for (int i = 0; i < sensorCount; i++)
+            for (int i = 0; i < sensorValues.Length; i++)
             {
                 sensorValues[i] = SensorScanning(i);
             }
 
-            if(updateCount == 12)
+            if(updatesToNewPrediction == 12)
             {
                 NeuralNet.Predict(sensorValues, out turn, out speed);                
-                updateCount = 0;
+                updatesToNewPrediction = 0;
             }
             else
             {
-                updateCount++;
+                updatesToNewPrediction++;
             }
             Move();    
             UpdateFitness();        
@@ -172,7 +170,6 @@ public class CarScript : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(ray, out hit, maxRayDistance, layerMask))
         {
-            //Debug.DrawRay(from, direction * hit.distance, Color.red);
             if (hit.distance > (3f / 4f * maxRayDistance))
             {
                 VisualizeRay(rayIndex, Color.yellow, from, hit.point);
@@ -184,7 +181,6 @@ public class CarScript : MonoBehaviour
         }
         else
         {
-            //Debug.DrawRay(from, direction * maxRayDistance, Color.green);
             if(Physics.Raycast(ray, maxRayDistance + 3f, layerMask))
             {
                 VisualizeRay(rayIndex, Color.yellow, from, from + direction * maxRayDistance);
