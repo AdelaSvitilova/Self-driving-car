@@ -11,7 +11,8 @@ public class CameraFollowing : MonoBehaviour
 
     void Start()
     {
-        cars = transform.parent.GetComponent<EvolutionScript>().cars;
+        GameObject evolutionManager = GameObject.FindGameObjectWithTag("EvoManager");
+        cars = evolutionManager.GetComponent<EvolutionScript>().cars;
         target = cars[0];
         newTarget = null;
     }

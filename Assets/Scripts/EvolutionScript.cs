@@ -10,17 +10,16 @@ public class EvolutionScript : MonoBehaviour
     public GameObject carPrefab;
 
     [SerializeField] int populationSize, maxGenerations;
-    private int parentsCount = 2;
+    private int parentsCount;
     //private float mutationProbability = 0.1f;
 
     public List<CarScript> cars { get; private set; }
     private bool carsStillMove;
-    private int generation;
+    public int Generation { get; private set; }
+    public CarScript BestCar { get; private set; }
+    private float bestFitness = 0;
 
     private NeuralNetwork[] bestCars;
-
-    [SerializeField] TMP_Text generationText;
-
     [SerializeField] UnityEvent carRestarted;
 
     void Start()
@@ -43,9 +42,22 @@ public class EvolutionScript : MonoBehaviour
                     break;
                 }
             }
+            FoundBestCar();
             if (!carsStillMove)
             {
                 Invoke(nameof(GenerateNewPopulation), 1.5f);
+            }
+        }
+    }
+
+    private void FoundBestCar()
+    {        
+        foreach (CarScript car in cars)
+        {
+            if(car.Fitness > bestFitness)
+            {
+                bestFitness = car.Fitness;
+                BestCar = car;
             }
         }
     }
@@ -93,13 +105,14 @@ public class EvolutionScript : MonoBehaviour
             CarScript carScript = car.GetComponent<CarScript>();
             cars.Add(carScript);
         }
-        generation = 0;
+        Generation = 0;
         carsStillMove = true;
+        BestCar = cars[0];
     }
 
     private void GenerateNewPopulation()
     {
-        if(generation < maxGenerations)
+        if(Generation < maxGenerations)
         {
             carRestarted.Invoke();
             Selection();
@@ -109,10 +122,9 @@ public class EvolutionScript : MonoBehaviour
             {
                 car.ResetCar();
             }
-            generation++;
+            Generation++;
             carsStillMove = true;
-
-            generationText.text = "Generace: " + generation.ToString();
+            bestFitness = 0;
         }        
     }
 }

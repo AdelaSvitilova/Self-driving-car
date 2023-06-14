@@ -17,7 +17,7 @@ public class CamSwitching : MonoBehaviour {
         activeCam = mainCam;
         EvoManager = GameObject.FindGameObjectWithTag("EvoManager").GetComponent<SceneTextScript>();
     }
-
+    /*
     void Update() {
         bestCar = GetBestCar();
     }
@@ -58,5 +58,5 @@ public class CamSwitching : MonoBehaviour {
             return vcam;
         }
         return null;
-    }
+    }*/
 }
