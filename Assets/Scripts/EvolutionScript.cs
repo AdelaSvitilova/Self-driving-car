@@ -8,7 +8,6 @@ using TMPro;
 public class EvolutionScript : MonoBehaviour
 {
     [SerializeField] GameObject carPrefab;
-    [SerializeField] int maxGenerations;
     private int parentsCount;
 
     public List<CarScript> cars { get; private set; }
@@ -100,18 +99,15 @@ public class EvolutionScript : MonoBehaviour
 
     private void GenerateNewPopulation()
     {
-        if(Generation < maxGenerations)
-        {            
-            Selection();
-            Crossover();
-            foreach (CarScript car in cars)
-            {
-                car.ResetCar();
-            }
-            Generation++;
-            carsStillMove = true;
-            bestFitness = 0;
-            carRestarted.Invoke();
-        }        
+        Selection();
+        Crossover();
+        foreach (CarScript car in cars)
+        {
+            car.ResetCar();
+        }
+        Generation++;
+        carsStillMove = true;
+        bestFitness = 0;
+        carRestarted.Invoke();
     }
 }
